@@ -16,6 +16,7 @@ class Controller:
         #print("CLICK su Worst Case")
 
         self._view._txtOut.controls.clear()
+        self._view._txtOut.update()
 
         if self._view._ddNerc.value is None:
             self._view.create_alert("Selezionare un NERC")
