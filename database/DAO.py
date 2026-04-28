@@ -13,8 +13,13 @@ class DAO():
 
         result = []
 
+        if conn is None:
+            return result
+
         cursor = conn.cursor(dictionary=True)
-        query = """ ADD YOUR QUERY """
+        query = """ SELECT n.id, n.value
+                    FROM Nerc n
+                    ORDER BY n.value """
 
         cursor.execute(query)
 
@@ -31,8 +36,23 @@ class DAO():
 
         result = []
 
+        if conn is None:
+            return result
+
         cursor = conn.cursor(dictionary=True)
-        query = """ ADD YOUR QUERY """
+        query = """ SELECT p.id,
+                   p.event_type_id,
+                   p.tag_id,
+                   p.area_id,
+                   p.nerc_id,
+                   p.responsible_id,
+                   COALESCE(p.customers_affected, 0) AS customers_affected,
+                   p.date_event_began,
+                   p.date_event_finished,
+                   COALESCE(p.demand_loss, 0) AS demand_loss
+            FROM PowerOutages p
+            WHERE p.nerc_id = %s
+            ORDER BY p.date_event_began """
 
         cursor.execute(query, (nerc.id,))
 
